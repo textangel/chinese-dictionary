@@ -51,7 +51,8 @@ class MBDGDict(object):
             with open(lookup_file_path, "r") as f: 
                 for line in f:
                     line = line.strip()
-                    if line == "":
+                    if line == "" or line[0] == "#":
+                        w.write(line)
                         w.write("\n")
                         continue
                     out = self.single_formatted_lookup(line)
