@@ -35,7 +35,7 @@ class MBDGDict(object):
     def single_formatted_lookup(self, entry):
         res = self.single_lookup(entry)
         if res is None:
-            out = f"Entry '{entry}' is not found. Please try again."
+            out = f"   {entry}: Entry is not found. Please try again.\n"
         else:
             out = f"{res['simp']} {res['pron']} {str(res['defs'])}\n"
         return out
@@ -47,10 +47,13 @@ class MBDGDict(object):
             path =  Path(lookup_file_path)
             output_file_path = str(path.with_suffix("")) + "_lookup" + path.suffix
 
-        with open(output_file_path, "a+") as w:
+        with open(output_file_path, "w+") as w:
             with open(lookup_file_path, "r") as f: 
                 for line in f:
                     line = line.strip()
+                    if line == "":
+                        w.write("\n")
+                        continue
                     out = self.single_formatted_lookup(line)
                     w.write(out)
 
